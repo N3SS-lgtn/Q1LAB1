@@ -1,5 +1,6 @@
-// Program with flag for button press and debugging statements
-// Debugging shows that the flag set in the interrupt context is not consistently managed in the main loop.
+// Final program with suitable software solution
+// Changes: Using a volatile flag to indicate the button press and managing it properly in the main loop.
+// Ensuring the printf statement is outside the interrupt context for proper operation.
 
 #include "mbed.h"
 
@@ -22,5 +23,7 @@ int main() {
             printf("Button pressed\n");
             button_flag = false;
         }
+        // Short delay to avoid busy-waiting
+        wait_ms(10);
     }
 }
