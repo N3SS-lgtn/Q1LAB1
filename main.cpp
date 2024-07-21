@@ -1,16 +1,15 @@
-// Final program with suitable software solution
-// Changes: Using a volatile flag to indicate the button press and managing it properly in the main loop.
-// Ensuring the printf statement is outside the interrupt context for proper operation.
+// Initial program with error message
+// Error: 'printf' will not work directly inside an interrupt context due to its re-entrant nature. 
+// Error handling needs to be outside the interrupt context.
 
 #include "mbed.h"
 
 // Initialize button pin as InterruptIn
 InterruptIn button(BUTTON1);
-volatile bool button_flag = false;
 
 // Function to handle button press interrupt
 void button_pressed() {
-    button_flag = true;
+    printf("Button pressed\n");
 }
 
 int main() {
@@ -19,11 +18,6 @@ int main() {
 
     // Keep the program running
     while (1) {
-        if (button_flag) {
-            printf("Button pressed\n");
-            button_flag = false;
-        }
-        // Short delay to avoid busy-waiting
-        wait_ms(10);
+        // Do nothing, wait for interrupt
     }
 }
