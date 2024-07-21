@@ -1,15 +1,15 @@
-// Initial program with error message
-// Error: 'printf' will not work directly inside an interrupt context due to its re-entrant nature. 
-// Error handling needs to be outside the interrupt context.
+// Program with flag for button press and debugging statements
+// Debugging shows that the flag set in the interrupt context is not consistently managed in the main loop.
 
 #include "mbed.h"
 
 // Initialize button pin as InterruptIn
 InterruptIn button(BUTTON1);
+volatile bool button_flag = false;
 
 // Function to handle button press interrupt
 void button_pressed() {
-    printf("Button pressed\n");
+    button_flag = true;
 }
 
 int main() {
@@ -18,6 +18,9 @@ int main() {
 
     // Keep the program running
     while (1) {
-        // Do nothing, wait for interrupt
+        if (button_flag) {
+            printf("Button pressed\n");
+            button_flag = false;
+        }
     }
 }
